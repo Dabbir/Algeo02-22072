@@ -23,7 +23,7 @@ const FileUpload = ({ onFileUpload }) => {
         />
       ) : (
         <p className="text-gray-600">
-          Drag and drop an image or file here, or click to select one
+          Drag and drop an image here, or click to select one
         </p>
       )}
       {uploadedFile && (
