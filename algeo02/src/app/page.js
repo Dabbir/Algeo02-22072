@@ -1,56 +1,48 @@
-"use client";
+import BackgroundComponent from "@/components/BackgroundBox";
+import Navbar from "@/components/Navbar";
+import { Orbitron } from "next/font/google";
+import Link from "next/link";
 
-import FileUpload from "@/components/FileUpload";
-import ImageCard from "@/components/ImageCard";
-import Image from "next/image";
-import { useState } from "react";
+const orbitron = Orbitron({
+  weight: ["400", "500", "800"],
+  subsets: ["latin"],
+});
 
 const Home = () => {
-  const [uploadedFile, setUploadedFile] = useState(null);
-
-  const handleFileUpload = (file) => {
-    setUploadedFile(file);
-  };
-
   return (
     <main>
-      {/* Section 1 */}
-      <div className="py-2 px-8 border-b-2 border-[#2f1952] bg-gradient-to-r from-[#6d28d9] to-[#9676f6]">
-        <h1 className="text-2xl bg-gradient-te font-semibold">
-          Reverse Image Search
-        </h1>
-      </div>
-      <div className="flex flex-wrap justify-center">
-        <div className="p-4">
-          <h1 className="p-2">Image Input</h1>
-          <FileUpload onFileUpload={handleFileUpload} />
-          {uploadedFile && (
-            <div className="p-2">
-              <h2>Uploaded Image:</h2>
-              <p>File name: {uploadedFile.name}</p>
-              <p>File size: {uploadedFile.size} bytes</p>
-            </div>
-          )}
-          <div className="flex flex-col m-2 p-4 items-center">
-            <button className="py-2 px-16 text-xl rounded-full bg-gradient-to-r from-[#6d28d9] to-[#a78bfa] hover:opacity-80">
-              Search
-            </button>
-          </div>
+      <Navbar />
+      <div className="backgroundAmim absolute -z-10 top-0 left-0 w-full h-40 bg-blue-500 filter blur-60 animate-animBack"></div>
+      <div className="w-full min-h-[100vh] mx-auto flex flex-col justify-between backdrop-blur-sm">
+        <div className="fixed">
+          <BackgroundComponent />
         </div>
-      </div>
-      {/* Section 2 */}
-      <div className="p-4">
-        <hr className="mx-28 border-[#6d28d9]" />
-        {uploadedFile && (
-          <div className="flex flex-wrap md:mx-60 sm:mx-32 my-10 gap-12 gap-y-6 justify-center">
-            <ImageCard images="/images/0.jpg" />
-            <ImageCard images="/images/1.jpg" />
-            <ImageCard images="/images/2.jpg" />
-            <ImageCard images="/images/3.jpg" />
-            <ImageCard images="/images/4.jpg" />
-            <ImageCard images="/images/5.jpg" />
+        <section className="flex flex-col z-10 m-[36vh] items-center justify-center h-4/5 font-semibold">
+          <div className={`text-center ${orbitron.className}`}>
+            <h1 className="text-6xl mb-4">
+              <span className="text-secondary">Reverse</span> Image Search
+            </h1>
+            <p className="text-lg mb-8">
+              Fast Track Your Web Development Career with Our Team! <br />
+              Learn Web Development from Beginning with live coding sessions on
+              your Laptop!
+            </p>
+            <Link
+              href="/"
+              className="border-white border-4 rounded-sm py-2 px-4 mx-4 hover:bg-white hover:text-senary"
+              style={{ "--i": "#fff" }}
+            >
+              About Us
+            </Link>
+            <Link
+              href="/search"
+              className="border-secondary text-secondary border-4 rounded-sm py-2 px-4 mx-4 hover:bg-secondary hover:text-senary"
+              style={{ "--i": "#00bfff" }}
+            >
+              EXPLORE
+            </Link>
           </div>
-        )}
+        </section>
       </div>
     </main>
   );
