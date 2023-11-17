@@ -25,14 +25,14 @@ const ImageCard = ({ image, similarity }) => {
 
   return (
     <div
-      className={`w-80 bg-white shadow-xl rounded-md border border-transparent hover:border-2 hover:border-secondary cursor-pointer`}
+      className={`w-80 bg-white shadow-xl rounded-md border border-transparent hover:border-2 hover:border-tertiary cursor-pointer`}
     >
       <div className="rounded-md object-cover">
-        <Image
+        <img
           src={image}
           width={350}
           height={350}
-          alt="..."
+          alt={`Image card for ${image}`}
           className="rounded-md"
         />
       </div>

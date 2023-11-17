@@ -26,10 +26,18 @@ const handler = async (req, res) => {
   } catch (error) {
     await fs.mkdir(path.join(process.cwd(), "/uploads"));
   }
-  const { files } = await readFile(req, true);
-  const filePath = path.join(process.cwd(), "/uploads", files.myImage.name);
-  await fs.rename(files.myImage.path, filePath);
-  res.json({ done: "ok" });
+
+  try {
+    const { files } = await readFile(req, true);
+    const filePath = path.join(process.cwd(), "/uploads", files.myImage.name);
+    await fs.rename(files.myImage.path, filePath);
+    res.json({ done: "ok" });
+  } catch (error) {
+    console.error("Error uploading file:", error);
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", details: error.message });
+  }
 };
 
 export default handler;

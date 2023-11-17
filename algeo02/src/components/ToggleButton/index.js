@@ -1,20 +1,23 @@
+// ToggleButton.js
 import { useState } from "react";
 
-const ToggleButton = () => {
+const ToggleButton = ({ onToggle }) => {
   const [activeButton, setActiveButton] = useState("color");
 
   const handleToggle = (button) => {
     setActiveButton(button);
+    // Call the onToggle callback with the active button value
+    onToggle(button);
   };
 
   return (
-    <div className="flex m-2 border-2 border-secondary rounded-full justify-between px-4 py-1">
+    <div className="flex m-2 border-2 border-secondary rounded-full font-semibold justify-between px-4 py-1">
       <button
         onClick={() => handleToggle("color")}
         className={`${
           activeButton === "color"
             ? "bg-gradient-to-r from-quaternary to-primary text-white transform scale-105 transition-all"
-            : "text-primary font-semibold transform scale-100 transition-all"
+            : "text-primary transform scale-100 transition-all"
         } mx-2 px-12 py-2 rounded-full`}
       >
         Color
@@ -24,7 +27,7 @@ const ToggleButton = () => {
         className={`${
           activeButton === "texture"
             ? "bg-gradient-to-r from-quaternary to-primary text-white transform scale-105 transition-all"
-            : "text-primary font-semibold transform scale-100 transition-all"
+            : "text-primary transform scale-100 transition-all"
         } mx-2 px-10 py-2 rounded-full`}
       >
         Texture

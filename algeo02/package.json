@@ -21,6 +21,7 @@
     "formidable": "^3.5.1",
     "framer-motion": "^10.16.4",
     "fs": "^0.0.1-security",
+    "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "next": "^14.0.1",
     "react": "^18",
@@ -38,5 +39,6 @@
     "eslint-config-next": "^14.0.1",
     "postcss": "^8",
     "tailwindcss": "^3.3.0"
-  }
+  },
+  "proxy": ["http://localhost:4000","http://localhost:5000"]
 }
