@@ -23,7 +23,7 @@
     "fs": "^0.0.1-security",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
-    "next": "^14.0.1",
+    "next": "^14.0.3",
     "react": "^18",
     "react-bootstrap": "^2.9.1",
     "react-dom": "^18",
@@ -40,5 +40,8 @@
     "postcss": "^8",
     "tailwindcss": "^3.3.0"
   },
-  "proxy": ["http://localhost:4000","http://localhost:5000"]
+  "proxy": [
+    "http://localhost:4000",
+    "http://localhost:5000"
+  ]
 }

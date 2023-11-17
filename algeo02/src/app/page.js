@@ -28,7 +28,7 @@ const Home = () => {
               your Laptop!
             </p>
             <Link
-              href="/"
+              href="/aboutus"
               className="border-white border-4 rounded-sm py-2 px-4 mx-4 hover:bg-white hover:text-senary"
               style={{ "--i": "#fff" }}
             >
