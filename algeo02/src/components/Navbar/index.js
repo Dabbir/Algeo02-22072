@@ -28,7 +28,7 @@ function Navbar() {
             Search
           </Link>
           <Link
-            href="/"
+            href="/aboutus"
             className="hover:text-secondary hover:scale-105 hover:opacity-90"
           >
             About
