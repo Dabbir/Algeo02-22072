@@ -28,22 +28,22 @@ function aboutUs (){
                         <div class="card">
                             <img src="/asset/Dama.jpg" alt="" width="300px" height="300px"/>
                             <div class="text">
-                                <div class="name">Ahmad Mudabbir Arif</div>
-                                <div class="role">13522072</div>
+                                <div className={`name ${orbitron.className}`}>Ahmad Mudabbir Arif</div>
+                                <div className={`nim ${orbitron.className}`}>13522072</div>
                             </div>  
                         </div>
                         <div class="card">
                             <img src="/asset/Cupi.jpg" alt="" width="300px" height="300px"/>
                             <div class="text">
-                                <div class="name">Muhammad Neo Cicero Koda</div>
-                                <div class="role">13522108</div>
+                                <div className={`name ${orbitron.className}`}>Muhammad Neo Cicero Koda</div>
+                                <div className={`nim ${orbitron.className}`}>13522108</div>
                             </div>  
                         </div>
                         <div class="card">
                             <img src="/asset/Adril.jpg" alt="" width="300px" height="300px"/>
                             <div class="text">
-                                <div class="name">William Glory Henderson</div>
-                                <div class="role">13522113</div>
+                                <div className={`name ${orbitron.className}`}>William Glory Henderson</div>
+                                <div className={`nim ${orbitron.className}`}>13522113</div>
                             </div>  
                         </div>
                 </section>

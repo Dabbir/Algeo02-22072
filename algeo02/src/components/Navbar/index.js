@@ -12,7 +12,7 @@ function Navbar() {
     <div className={`fixed z-50 w-full backdrop-blur-sm ${orbitron.className}`}>
       <div className="flex flex-wrap justify-between items-center py-4 px-24 shadow-xl bg-transparent">
         <h1 className="text-5xl text-white font-semibold">
-          <span className="text-secondary">Neo</span>Lens
+          <span className="text-secondary">Bukan</span>Lens
         </h1>
         <div className="flex gap-16 text-xl font-bold">
           <Link

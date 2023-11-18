@@ -22,10 +22,10 @@ const Home = () => {
             <h1 className="text-6xl mb-4">
               <span className="text-secondary">Reverse</span> Image Search
             </h1>
-            <p className="text-lg mb-8">
-              Fast Track Your Web Development Career with Our Team! <br />
-              Learn Web Development from Beginning with live coding sessions on
-              your Laptop!
+            <p className="text-lg mb-8 text-center">
+              A Simple Website to Find Similar Images with CBIR Color and Texture<br /> 
+              Using Cosine Similarity Theorem to Check Its Resemblance with Other Images <br />
+              The Higher The Cosine Value, The More Similar The Images are
             </p>
             <Link
               href="/aboutus"
