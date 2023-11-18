@@ -46,7 +46,7 @@ const FileUpload = ({
 
   const handleToggle = (activeButton) => {
     onToggle(activeButton);
-    setUsingCamera(activeButton === "camera");
+    // setUsingCamera(activeButton === "camera");
   };
 
   const startCamera = async () => {
@@ -74,6 +74,14 @@ const FileUpload = ({
     }
   };
 
+  const stopCamera = () => {
+    if (cameraStream) {
+      clearInterval(captureInterval);
+      cameraStream.getTracks().forEach((track) => track.stop());
+      setCameraStream(null);
+    }
+  };
+
   const captureImage = async () => {
     if (cameraVideoRef.current) {
       const canvas = document.createElement("canvas");
@@ -91,7 +99,7 @@ const FileUpload = ({
 
       const imageDataURL = canvas.toDataURL("image/png");
       setLatestCapture(imageDataURL);
-      setCapturedImages((prevImages) => [...prevImages, imageDataURL]);
+      // setCapturedImages((prevImages) => [...prevImages, imageDataURL]);
     }
   };
 
@@ -118,11 +126,14 @@ const FileUpload = ({
       let formData = new FormData();
 
       if (usingCamera) {
-        // Convert the base64 camera image to a Blob
-        capturedImages.forEach(async (imageData, index) => {
-          const blob = dataURLtoBlob(imageData);
-          formData.append("photo", blob, `camera-photo_${index}.png`);
-        });
+        const blob = dataURLtoBlob(latestCapture);
+        formData.append("photo", blob, "camera-photo.png");
+
+        // Append other captured images if needed
+        // capturedImages.forEach(async (imageData, index) => {
+        //   const blob = dataURLtoBlob(imageData);
+        //   formData.append("photo", blob, `camera-photo_${index}.png`);
+        // });
       } else if (uploadedFile) {
         formData.append("photo", uploadedFile);
       } else {
@@ -144,7 +155,7 @@ const FileUpload = ({
       setTimeout(() => {
         setUploading(false);
         onSearch();
-        setCapturedImages([]);
+        // setCapturedImages([]);
       }, 1000);
     } catch (error) {
       console.error("Error uploading file:", error);
@@ -158,7 +169,7 @@ const FileUpload = ({
     const startCameraAndCountdown = async () => {
       await startCamera();
       countdownInterval = setInterval(() => {
-        setCountdown((prevCountdown) => {
+        setCountdown(() => {
           if (countdownValue === 0) {
             countdownValue = 10;
             captureImage();
@@ -173,60 +184,9 @@ const FileUpload = ({
       startCameraAndCountdown();
     }
     return () => {
-      // Clear the interval when component unmounts or when usingCamera is set to false
       clearInterval(countdownInterval);
     };
   }, [usingCamera, cameraVideoRef]);
-
-  const handleCapture = async () => {
-    // Your capture logic here
-    console.log("Capturing image...");
-    setUploading(true);
-
-    try {
-      // Replace this part with your actual image capture and upload logic
-      const imageData = await captureImageFromVideo();
-      onFileUpload(imageData);
-
-      // Reset countdown and stop using the camera
-      setCountdown(10);
-      setUsingCamera(false);
-
-      // Continue with the rest of your file upload logic
-      let formData = new FormData();
-
-      if (usingCamera) {
-        // Convert the base64 camera image to a Blob
-        const blob = await fetch(imageData).then((r) => r.blob());
-        formData.append("photo", blob, "camera-photo.png");
-      } else if (uploadedFile) {
-        formData.append("photo", uploadedFile);
-      } else {
-        alert("No image uploaded or captured from the camera");
-        return;
-      }
-
-      const response = await fetch("http://localhost:4000/api/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (response.ok) {
-        console.log("File uploaded successfully");
-      } else {
-        console.error("File upload failed:", response.statusText);
-      }
-
-      // Simulate search after upload
-      setTimeout(() => {
-        setUploading(false);
-        onSearch();
-      }, 1000);
-    } catch (error) {
-      console.error("Error capturing image:", error);
-      setUploading(false);
-    }
-  };
 
   return (
     <>
@@ -248,13 +208,21 @@ const FileUpload = ({
               </div>
               <div className="absolute bottom-0 left-0 right-0 flex justify-center mb-4">
                 {latestCapture && (
-                  <button
-                    onClick={handleUpload}
-                    disabled={uploading}
-                    className="py-2 px-4 ml-4 bg-gradient-to-r from-quaternary to-primary text-white rounded-full hover:opacity-80"
-                  >
-                    Upload Latest Capture
-                  </button>
+                  <>
+                    <button
+                      onClick={handleUpload}
+                      disabled={uploading}
+                      className="py-2 px-4 ml-4 bg-gradient-to-r from-quaternary to-primary text-white rounded-full hover:opacity-80"
+                    >
+                      Upload Latest Capture
+                    </button>
+                    <button
+                      onClick={stopCamera}
+                      className="py-2 px-4 ml-4 bg-red-500 text-white rounded-full hover:opacity-80"
+                    >
+                      Stop Camera
+                    </button>
+                  </>
                 )}
               </div>
             </>
@@ -265,7 +233,7 @@ const FileUpload = ({
               alt={uploadedFile.path}
               className="absolute inset-0 object-contain w-full h-full"
             />
-          ) : (
+          ) : usingCamera ? null : (
             <div className="flex justify-center items-center rounded-lg w-full h-full">
               <Image
                 src="image-preview.svg"
@@ -308,7 +276,12 @@ const FileUpload = ({
               </div>
             ) : (
               <div className="flex flex-col justify-center items-center h-full">
-                <Image src="/download.svg" width={50} height={50} alt="..." />
+                <Image
+                  src={usingCamera ? "/capture.png" : "/download.svg"}
+                  width={50}
+                  height={50}
+                  alt="..."
+                />
                 <p className="text-gray-600">
                   {usingCamera
                     ? "Capturing image every 10 seconds..."

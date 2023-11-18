@@ -34,7 +34,7 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.post("/api/upload", upload.any("photo"), async (req, res) => {
+app.post("/api/upload", upload.single("photo"), async (req, res) => {
   try {
     if (!req.file) {
       throw new Error("No file received");

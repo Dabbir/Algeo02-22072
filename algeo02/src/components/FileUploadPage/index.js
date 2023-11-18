@@ -39,14 +39,13 @@ const FileUploadPage = () => {
 
   const handleToggle = (activeButton) => {
     setActiveButton(activeButton);
-    setSearchTypeStatus(activeButton);
     console.log("Active Button in Parent Component:", activeButton);
   };
 
   return (
     <>
       {isUploadDataset && (
-        <div className="absolute z-50 h-screen w-screen sm:px-8 md:px-16 sm:py-8">
+        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 h-screen w-screen sm:px-8 md:px-16 sm:py-8">
           <div className="relative mx-auto my-[15vh] rounded-xl">
             <ButtonUpload
               onCancelUplaod={() => setIsUploadDataset(false)}
@@ -71,12 +70,9 @@ const FileUploadPage = () => {
       <div className="p-4">
         <hr className="mx-28 border-secondary" />
         {showGallery && uploadedFile && (
-          <GallerySimilar
-            statusSearch={searchTypeStatus}
-            activeButton={activeButton}
-          />
+          <GallerySimilar activeButton={activeButton} />
         )}
-        {isDatasetUploaded && !isUploadDataset && (
+        {isDatasetUploaded && !isUploadDataset && !uploadedFile && (
           <Gallery folderPath="/../backend/api/public/dataset" />
         )}
         <hr className="mx-28 border-secondary" />

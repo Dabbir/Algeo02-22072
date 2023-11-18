@@ -5,9 +5,31 @@ const UploadFolder = ({ onCancelUplaod, onUploaded }) => {
   const [files, setFiles] = useState([]);
   const [isVisible, setIsVisible] = useState(true);
 
-  const handleFileUpload = (e) => {
+  const handleFileUpload = async (e) => {
     const newFiles = [...files, ...Array.from(e.target.files)];
     setFiles(newFiles);
+
+    const zipFiles = newFiles.filter((file) => file.type === "application/zip");
+
+    if (zipFiles.length > 0) {
+      try {
+        const zip = new JSZip();
+        await Promise.all(
+          zipFiles.map(async (zipFile) => {
+            const zipContents = await zip.loadAsync(zipFile);
+            Object.keys(zipContents.files).forEach(async (filename) => {
+              const content = await zipContents.files[filename].async("blob");
+              const extractedFile = new File([content], filename, {
+                type: zipContents.files[filename].comment || "",
+              });
+              setFiles((prevFiles) => [...prevFiles, extractedFile]);
+            });
+          })
+        );
+      } catch (error) {
+        console.error("Error extracting zip file:", error);
+      }
+    }
   };
 
   const handleFileDelete = (index) => {
@@ -34,7 +56,7 @@ const UploadFolder = ({ onCancelUplaod, onUploaded }) => {
           formData.append("files", file);
         }
 
-        fetch("http://localhost:5000/api/upload", {
+        fetch("http://localhost:4000/api/upload/dataset", {
           method: "POST",
           body: formData,
         })

@@ -33,7 +33,7 @@ const Gallery = ({ folderPath }) => {
             key={index}
             image={image.replace(
               "/backend/api/public",
-              "http://localhost:5000"
+              "http://localhost:4000"
             )}
           />
         ))}

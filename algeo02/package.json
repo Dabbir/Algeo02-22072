@@ -12,6 +12,7 @@
     "@nextui-org/system": "^2.0.12",
     "@nextui-org/theme": "^2.1.12",
     "@types/formidable": "^3.4.5",
+    "adm-zip": "^0.5.10",
     "axios": "^1.6.1",
     "body-parser": "^1.20.2",
     "bootstrap": "^5.3.2",
@@ -21,6 +22,7 @@
     "formidable": "^3.5.1",
     "framer-motion": "^10.16.4",
     "fs": "^0.0.1-security",
+    "jszip": "^3.10.1",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "next": "^14.0.1",
@@ -40,5 +42,8 @@
     "postcss": "^8",
     "tailwindcss": "^3.3.0"
   },
-  "proxy": ["http://localhost:4000","http://localhost:5000"]
+  "proxy": [
+    "http://localhost:4000",
+    "http://localhost:5000"
+  ]
 }
