@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 
-const UploadFolder = ({ onCancelUplaod, onUploaded }) => {
+const UploadFolder = ({ onCancelUpload, onUploaded }) => {
   const [files, setFiles] = useState([]);
   const [isVisible, setIsVisible] = useState(true);
 
@@ -41,7 +41,7 @@ const UploadFolder = ({ onCancelUplaod, onUploaded }) => {
   const cancelUpload = () => {
     setIsVisible(false);
     setTimeout(() => {
-      onCancelUplaod();
+      onCancelUpload();
     }, 300);
   };
 
@@ -56,7 +56,7 @@ const UploadFolder = ({ onCancelUplaod, onUploaded }) => {
           formData.append("files", file);
         }
 
-        fetch("http://localhost:4000/api/upload/dataset", {
+        fetch("http://localhost:4000/api/dataset", {
           method: "POST",
           body: formData,
         })

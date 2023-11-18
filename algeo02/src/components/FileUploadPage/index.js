@@ -4,13 +4,14 @@ import FileUpload from "../FileUpload";
 import Gallery from "../GalleryDataset";
 import ButtonUpload from "../ButtonUpload";
 import GallerySimilar from "../GallerySimilar";
+import ImageScraper from "../ButtonScraper";
 
 const FileUploadPage = () => {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [showGallery, setShowGallery] = useState(false);
   const [isUploadDataset, setIsUploadDataset] = useState(false);
   const [isDatasetUploaded, setIsDatasetUploaded] = useState(false);
-  const [searchTypeStatus, setSearchTypeStatus] = useState("");
+  const [isScraping, setIsScraping] = useState(false);
   const [activeButton, setActiveButton] = useState("color");
 
   const handleFileUpload = (file) => {
@@ -37,6 +38,10 @@ const FileUploadPage = () => {
     setIsUploadDataset(true);
   };
 
+  const handleDatasetScraping = () => {
+    setIsScraping(true);
+  };
+
   const handleToggle = (activeButton) => {
     setActiveButton(activeButton);
     console.log("Active Button in Parent Component:", activeButton);
@@ -48,9 +53,16 @@ const FileUploadPage = () => {
         <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 h-screen w-screen sm:px-8 md:px-16 sm:py-8">
           <div className="relative mx-auto my-[15vh] rounded-xl">
             <ButtonUpload
-              onCancelUplaod={() => setIsUploadDataset(false)}
+              onCancelUpload={() => setIsUploadDataset(false)}
               onUploaded={() => setIsDatasetUploaded(true)}
             />
+          </div>
+        </div>
+      )}
+      {isScraping && (
+        <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 h-screen w-screen sm:px-8 md:px-16 sm:py-8">
+          <div className="relative mx-auto my-[15vh] rounded-xl">
+            <ImageScraper onCancelScrape={() => setIsScraping(false)} />
           </div>
         </div>
       )}
@@ -76,12 +88,18 @@ const FileUploadPage = () => {
           <Gallery folderPath="/../backend/api/public/dataset" />
         )}
         <hr className="mx-28 border-secondary" />
-        <div className="flex justify-center my-8">
+        <div className="flex justify-center my-8 gap-2">
           <button
             onClick={handleDatasetUpload}
-            className="py-2 px-16 text-white text-xl rounded-full bg-gradient-to-r from-quaternary to-primary hover:opacity-80"
+            className="py-2 px-16 text-white text-xl rounded-l-full bg-gradient-to-r from-quaternary to-secondary hover:opacity-80"
           >
             Upload Dataset
+          </button>
+          <button
+            onClick={handleDatasetScraping}
+            className="py-2 px-16 text-white text-xl rounded-r-full bg-gradient-to-r from-secondary to-primary hover:opacity-80"
+          >
+            Image Scraping
           </button>
         </div>
       </div>

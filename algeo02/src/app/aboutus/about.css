@@ -49,44 +49,48 @@ body {
   }
 }
 
-.card{
-    margin: 30px;
-    width: 475px;
-    height: 475px;
-    flex-shrink: 0;
-    border-radius: 30px;
-    background: linear-gradient(180deg, #0082ad 0%, rgba(255, 253, 238, 0.50) 100%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 30px;
+.card {
+  margin: 30px;
+  width: 475px;
+  height: 475px;
+  flex-shrink: 0;
+  border-radius: 30px;
+  background: linear-gradient(
+    180deg,
+    #0082ad 0%,
+    rgba(255, 253, 238, 0.5) 100%
+  );
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
 }
 
-.name{
-    color: #000;
-    text-align: center;
-    font-family: Poppins;
-    font-size: 25px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
+.name {
+  color: #000;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
 }
 
-.role{
-    color: #000;
-    text-align: center;
-    font-family: Poppins;
-    font-size: 25px;
-    font-style: normal;
-    font-weight: 300;
-    line-height: normal;
+.role {
+  color: #000;
+  text-align: center;
+  font-family: Poppins;
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
 }
-.card-container{
-    margin-top: 200px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 100px;
-    display: flex;
-    flex-direction: row;
+.card-container {
+  margin-top: 200px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+  display: flex;
+  flex-direction: row;
 }
