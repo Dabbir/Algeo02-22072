@@ -11,6 +11,7 @@ const GallerySimilar = ({ activeButton }) => {
   const [loading, setLoading] = useState(false);
   const [color, setColor] = useState(false);
   const [texture, setTexture] = useState(false);
+  const [emptyDataset, setEmptyDataset] = useState(false);
   const imagesPerPage = 6;
 
   useEffect(() => {
@@ -54,15 +55,23 @@ const GallerySimilar = ({ activeButton }) => {
       <div className="flex flex-col">
         <div className="flex justify-between font-semibold">
           <p className="text-2xl text-primary">Result:</p>
-          <p>
-            {color && `${result.length} results in ${timeColor} seconds.`}
-            {texture && `${result.length} results in ${timeTexture} seconds.`}
-          </p>
+          {emptyDataset ? (
+            <p>{`${result.length} results in 0 seconds.`}</p>
+          ) : (
+            <p>
+              {color && `${result.length} results in ${timeColor} seconds.`}
+              {texture && `${result.length} results in ${timeTexture} seconds.`}
+            </p>
+          )}
         </div>
         {loading ? (
           <div className="flex items-center justify-center">
             <div className="animate-spin rounded-full border-t-4 border-b-4 border-primary h-12 w-12"></div>
             <span className="ml-3 text-primary">Loading...</span>
+          </div>
+        ) : emptyDataset ? (
+          <div className="flex items-center justify-center">
+            <span className="text-xl text-primary">No result</span>
           </div>
         ) : (
           <>

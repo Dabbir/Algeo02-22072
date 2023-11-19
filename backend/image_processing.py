@@ -35,7 +35,7 @@ def process_image():
             processed_upload_texture = process_image_texture(uploaded_image)
             time_of_texture_process = time.time() - start
 
-            image_paths = glob(os.path.join('api', 'public', 'dataset', '*.jpg'))
+            image_paths = glob(os.path.join('api', 'public', 'dataset', '*.*'))
 
             start = time.time()
             processed_images_color = process_images(process_image_color, image_paths)

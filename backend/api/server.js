@@ -8,6 +8,7 @@ const JSZip = require("jszip");
 const fs = require("fs").promises;
 const http = require("http");
 const WebSocket = require("ws");
+const rimraf = require("rimraf"); // Add rimraf
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -54,9 +55,11 @@ app.get("/", (req, res) => {
 
 app.post("/api/upload", upload.single("photo"), uploadHandler);
 
-app.post("/api/dataset", upload.array("files"), datasetUploadHandler);
+app.post("/api/upload/dataset", upload.array("files"), datasetUploadHandler);
 
 app.post("/api/scrape", scrapeHandler);
+
+app.delete("/api/upload/dataset", deleteDatasetHandler);
 
 async function uploadHandler(req, res) {
   try {
@@ -67,14 +70,15 @@ async function uploadHandler(req, res) {
     const destination = uploadDestination;
     const filePath = path.join(destination, req.file.filename);
 
-    // Remove existing file with the same name
-    await removeExistingFileByUrl(filePath);
+    // Remove existing file with the same name using rimraf
+    // await removeExistingFileByUrl(filePath);
 
     const imageURL =
       req.protocol + "://" + req.get("host") + "/uploads/" + req.file.filename;
 
     // Update the list of uploaded files
     uploadedFiles["/uploads"].push(imageURL);
+    console.log(uploadedFiles["/uploads"]);
 
     res.json({ status: "success", image: imageURL, destination });
     notifyUpdate("/uploads");
@@ -94,12 +98,12 @@ async function datasetUploadHandler(req, res) {
 
     const finalImageURLs = [];
 
+    // Remove existing files in the dataset folder
+    // await removeAllFilesInDirectory(datasetDestination);
+
     // Process each file
     for (const file of req.files) {
       const filePath = path.join(datasetDestination, file.filename);
-
-      // Remove existing file with the same name
-      await removeExistingFileByUrl(filePath);
 
       if (file.mimetype === "application/zip") {
         // Handle zip file
@@ -117,9 +121,6 @@ async function datasetUploadHandler(req, res) {
               path.join(datasetDestination, filename)
             );
 
-            // Remove existing file with the same name
-            await removeExistingFileByUrl(extractedFile);
-
             await fs.writeFile(extractedFile, content);
             finalImageURLs.push(
               req.protocol + "://" + req.get("host") + "/dataset/" + filename
@@ -132,10 +133,10 @@ async function datasetUploadHandler(req, res) {
           req.protocol + "://" + req.get("host") + "/dataset/" + file.filename;
         finalImageURLs.push(imageURL);
       }
-
-      // Update the list of uploaded files
-      uploadedFiles["/dataset"].push(...finalImageURLs);
     }
+
+    // Update the list of uploaded files
+    uploadedFiles["/dataset"] = finalImageURLs;
 
     res.json({
       status: "success",
@@ -147,6 +148,19 @@ async function datasetUploadHandler(req, res) {
     console.error("Error processing dataset upload:", error.message);
     res.status(500).json({ status: "error", message: error.message });
   }
+}
+
+async function removeAllFilesInDirectory(directory) {
+  const files = await fs.readdir(directory);
+
+  // Remove each file in the directory
+  await Promise.all(
+    files.map(async (file) => {
+      const filePath = path.join(directory, file);
+      await rimraf.sync(filePath);
+      console.log(`File removed: ${filePath}`);
+    })
+  );
 }
 
 async function scrapeHandler(req, res) {
@@ -203,26 +217,16 @@ async function downloadImage(url, filePath) {
   }
 }
 
-async function removeExistingFileByUrl(fileUrl) {
+async function deleteDatasetHandler(req, res) {
   try {
-    // Use path.sep to handle both forward and backward slashes
-    const urlParts = fileUrl.split(path.sep);
-    const filename = urlParts[urlParts.length - 1];
+    // Remove existing files in the dataset folder
+    await removeAllFilesInDirectory(datasetDestination);
 
-    // Use path.join to create the file path
-    const filePath = path.normalize(path.join(datasetDestination, filename));
-
-    // Await the unlink operation to ensure it completes before proceeding
-    await fs.unlink(filePath);
-    console.log(`File removed: ${filePath}`);
+    res.json({ status: "success", message: "Dataset deleted successfully" });
+    notifyUpdate("/dataset");
   } catch (error) {
-    // Log the error
-    console.error(`Error removing file (${fileUrl}):`, error.message);
-
-    // Ignore errors if the file doesn't exist
-    if (error.code !== "ENOENT") {
-      throw error;
-    }
+    console.error("Error deleting dataset:", error.message);
+    res.status(500).json({ status: "error", message: error.message });
   }
 }
 

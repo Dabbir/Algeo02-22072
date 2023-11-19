@@ -23,16 +23,19 @@ const Home = () => {
               <span className="text-secondary">Reverse</span> Image Search
             </h1>
             <p className="text-lg mb-8 text-center">
-              A Simple Website to Find Similar Images with CBIR Color and Texture<br /> 
-              Using Cosine Similarity Theorem to Check Its Resemblance with Other Images <br />
+              A Simple Website to Find Similar Images with CBIR Color and
+              Texture
+              <br />
+              Using Cosine Similarity Theorem to Check Its Resemblance with
+              Other Images <br />
               The Higher The Cosine Value, The More Similar The Images are
             </p>
             <Link
-              href="/aboutus"
+              href="/description"
               className="border-white border-4 rounded-sm py-2 px-4 mx-4 hover:bg-white hover:text-senary"
               style={{ "--i": "#fff" }}
             >
-              About Us
+              GUIDE
             </Link>
             <Link
               href="/search"

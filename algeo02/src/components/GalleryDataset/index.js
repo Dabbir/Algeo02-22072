@@ -7,15 +7,19 @@ import { getImages } from "@/utils/images";
 const Gallery = ({ folderPath }) => {
   const [images, setImages] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
   const imagesPerPage = 6;
 
   useEffect(() => {
+    setLoading(true);
     const fetchImages = async () => {
       const allImages = await getImages(folderPath);
       setImages(allImages);
     };
 
-    fetchImages();
+    fetchImages().finally(() => {
+      setLoading(false);
+    });
   }, [folderPath]);
 
   const indexOfLastImage = currentPage * imagesPerPage;

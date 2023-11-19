@@ -45,31 +45,40 @@ const UploadFolder = ({ onCancelUpload, onUploaded }) => {
     }, 300);
   };
 
-  const handleSaveUpload = () => {
+  const handleSaveUpload = async () => {
     try {
       if (!files || files.length === 0) {
         alert("No file uploaded");
       } else {
+        // Step 1: Delete existing dataset
+        await fetch("http://localhost:4000/api/upload/dataset", {
+          method: "DELETE",
+        });
+
+        // Step 2: Upload the new dataset
         const formData = new FormData();
 
         for (const file of files) {
           formData.append("files", file);
         }
 
-        fetch("http://localhost:4000/api/dataset", {
-          method: "POST",
-          body: formData,
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.status === "success") {
-              cancelUpload();
-              onUploaded();
-              alert("Files uploaded successfully:");
-            } else {
-              console.error("Upload failed:", data.message);
-            }
-          });
+        const response = await fetch(
+          "http://localhost:4000/api/upload/dataset",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        const data = await response.json();
+
+        if (data.status === "success") {
+          cancelUpload();
+          onUploaded();
+          alert("Files uploaded successfully:");
+        } else {
+          console.error("Upload failed:", data.message);
+        }
       }
     } catch (error) {
       console.error(error);

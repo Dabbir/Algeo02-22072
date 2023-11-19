@@ -123,6 +123,12 @@ const FileUpload = ({
 
     setUploading(true);
     try {
+      // Step 1: Delete existing files
+      await fetch("http://localhost:4000/api/upload", {
+        method: "DELETE",
+      });
+
+      // Step 2: Upload the new file
       let formData = new FormData();
 
       if (usingCamera) {
