@@ -23,6 +23,9 @@ const GallerySimilar = ({ activeButton }) => {
         setTimeColor(data.time_of_color_process);
         setTimeTexture(data.time_of_texture_process);
         setResult(data.results);
+        if (result.length === 0) {
+          setEmptyDataset(true);
+        }
       })
       .finally(() => {
         setLoading(false);
@@ -50,6 +53,13 @@ const GallerySimilar = ({ activeButton }) => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  const currentImagesAboveThreshold = currentImages.filter((image) => {
+    const similarity = color
+      ? image.similarity_color
+      : image.similarity_texture;
+    return similarity >= 0.6; // 60% similarity threshold
+  });
+
   return (
     <div className="flex flex-col md:mx-60 sm:mx-32 my-10 gap-12 gap-y-6 justify-center">
       <div className="flex flex-col">
@@ -59,8 +69,15 @@ const GallerySimilar = ({ activeButton }) => {
             <p>{`${result.length} results in 0 seconds.`}</p>
           ) : (
             <p>
-              {color && `${result.length} results in ${timeColor} seconds.`}
-              {texture && `${result.length} results in ${timeTexture} seconds.`}
+              {loading ? (
+                "Loading..."
+              ) : (
+                <>
+                  {color && `${result.length} results in ${timeColor} seconds.`}
+                  {texture &&
+                    `${result.length} results in ${timeTexture} seconds.`}
+                </>
+              )}
             </p>
           )}
         </div>
@@ -76,7 +93,7 @@ const GallerySimilar = ({ activeButton }) => {
         ) : (
           <>
             <div className="flex flex-wrap my-10 gap-12 gap-y-6 justify-center">
-              {currentImages.map((image, index) => (
+              {currentImagesAboveThreshold.map((image, index) => (
                 <ImageCard
                   key={index}
                   image={
@@ -93,7 +110,9 @@ const GallerySimilar = ({ activeButton }) => {
             </div>
             <div
               className={`${
-                currentImages.length <= 3 ? "mt-[26.65em]" : "mt-0"
+                currentImagesAboveThreshold.length <= 3
+                  ? "mt-[26.65em]"
+                  : "mt-0"
               } justify-center`}
             >
               <Pagination
