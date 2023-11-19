@@ -61,11 +61,14 @@ const GallerySimilar = ({ activeButton }) => {
         <div className="flex justify-between font-semibold">
           <p className="text-2xl text-primary">Result:</p>
           {emptyDataset ? (
-            <p>{`${result.length} results in 0 seconds.`}</p>
+            <p>{`${currentImagesAboveThreshold.length} results in 0 seconds.`}</p>
           ) : (
-            <p>
-              {color && `${result.length} results in ${timeColor} seconds.`}
-              {texture && `${result.length} results in ${timeTexture} seconds.`}
+            <p>{loading ? (
+                "loading..."
+              ) : (  
+                color ? `${currentImagesAboveThreshold.length} results in ${currentImagesAboveThreshold.length === 0 ? 0 : timeColor} seconds.` :
+                `${currentImagesAboveThreshold.length} results in ${currentImagesAboveThreshold.length === 0 ? 0 : timeTexture} seconds.`
+            )}
             </p>
           )}
         </div>

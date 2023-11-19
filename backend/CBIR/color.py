@@ -64,7 +64,7 @@ def process_image_color(image):
             h_values, s_values, v_values = subarray[:, :, 0].flatten(), subarray[:, :, 1].flatten(), subarray[:, :, 2].flatten()
             
             # each vector has a length of 72 representing the number of possible hsv combinations
-            vector = np.zeros(72, dtype=int)
+            vector = np.zeros(72, dtype=np.float64)
 
             for h_category, (h_min, h_max) in enumerate(h_ranges):
                 h_mask = (h_values >= h_min) & (h_values <= h_max)

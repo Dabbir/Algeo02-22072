@@ -193,9 +193,9 @@ const FileUpload = ({
 
       countdownInterval = setInterval(() => {
         setCountdown((prevCountdown) => {
-          if (prevCountdown === 0) {
+          if (prevCountdown === 1) {
             captureImage();
-            return 20;
+            return 10;
           } else {
             return prevCountdown - 1;
           }
@@ -209,6 +209,9 @@ const FileUpload = ({
 
     return () => {
       clearInterval(countdownInterval);
+      if (usingCamera) {
+        stopCamera();
+      }
     };
   }, [usingCamera, cameraVideoRef]);
 
