@@ -5,6 +5,7 @@ import Gallery from "../GalleryDataset";
 import ButtonUpload from "../ButtonUpload";
 import GallerySimilar from "../GallerySimilar";
 import ImageScraper from "../ButtonScraper";
+import RealTimeGallerySimilar from "../RealTimeGallery";
 
 const FileUploadPage = () => {
   const [uploadedFile, setUploadedFile] = useState(null);
@@ -12,6 +13,7 @@ const FileUploadPage = () => {
   const [isUploadDataset, setIsUploadDataset] = useState(false);
   const [isDatasetUploaded, setIsDatasetUploaded] = useState(false);
   const [isScraping, setIsScraping] = useState(false);
+  const [isCamera, setIsCamera] = useState();
   const [activeButton, setActiveButton] = useState("color");
 
   const handleFileUpload = (file) => {
@@ -40,6 +42,11 @@ const FileUploadPage = () => {
 
   const handleDatasetScraping = () => {
     setIsScraping(true);
+  };
+
+  const handleOnCamera = (activeCamera) => {
+    setIsCamera(activeCamera);
+    console.log("Camera status:", activeCamera);
   };
 
   const handleToggle = (activeButton) => {
@@ -75,6 +82,7 @@ const FileUploadPage = () => {
             onReset={handleReset}
             onSearch={handleSearch}
             onToggle={handleToggle}
+            onCamera={handleOnCamera}
           />
         </div>
       </div>
@@ -83,6 +91,12 @@ const FileUploadPage = () => {
         <hr className="mx-28 border-secondary" />
         {showGallery && uploadedFile && (
           <GallerySimilar activeButton={activeButton} />
+        )}
+        {isCamera && !uploadedFile && !showGallery && (
+          <RealTimeGallerySimilar
+            activeButton={activeButton}
+            folderPath="/../backend/api/public/dataset"
+          />
         )}
         {isDatasetUploaded && !isUploadDataset && !uploadedFile && (
           <Gallery folderPath="/../backend/api/public/dataset" />
