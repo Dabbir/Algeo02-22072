@@ -50,6 +50,11 @@ const GallerySimilar = ({ activeButton }) => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  const currentImagesAboveThreshold = currentImages.filter((image) => {
+    const similarity = color ? image.similarity_color : image.similarity_texture;
+    return similarity >= 0.6; // 60% similarity threshold
+  });
+
   return (
     <div className="flex flex-col md:mx-60 sm:mx-32 my-10 gap-12 gap-y-6 justify-center">
       <div className="flex flex-col">
@@ -76,7 +81,7 @@ const GallerySimilar = ({ activeButton }) => {
         ) : (
           <>
             <div className="flex flex-wrap my-10 gap-12 gap-y-6 justify-center">
-              {currentImages.map((image, index) => (
+              {currentImagesAboveThreshold.map((image, index) => (
                 <ImageCard
                   key={index}
                   image={
@@ -93,7 +98,7 @@ const GallerySimilar = ({ activeButton }) => {
             </div>
             <div
               className={`${
-                currentImages.length <= 3 ? "mt-[26.65em]" : "mt-0"
+                currentImagesAboveThreshold.length <= 3 ? "mt-[26.65em]" : "mt-0"
               } justify-center`}
             >
               <Pagination

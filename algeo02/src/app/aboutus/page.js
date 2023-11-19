@@ -12,6 +12,7 @@ function aboutUs (){
   return (
     <main>
         <Navbar />
+        <br></br>
         <div className="backgroundAmim absolute -z-10 top-0 left-0 w-full h-40 bg-blue-500 filter blur-60 animate-animBack"></div>
         <div className="w-full min-h-[100vh] mx-auto flex flex-col justify-between backdrop-blur-sm">
             <div className="fixed">
@@ -24,22 +25,22 @@ function aboutUs (){
                 </h1>
                 </div>
                 <section className="flex flex-row z-10 m-[10vh] items-center justify-center h-4/5 font-semibold">
-                    <dev class="card-container"/>
-                        <div class="card">
+                    <dev class="card-containerabout"/>
+                        <div class="cardabout">
                             <img src="/asset/Dama.jpg" alt="" width="300px" height="300px"/>
                             <div class="text">
                                 <div className={`name ${orbitron.className}`}>Ahmad Mudabbir Arif</div>
                                 <div className={`nim ${orbitron.className}`}>13522072</div>
                             </div>  
                         </div>
-                        <div class="card">
+                        <div class="cardabout">
                             <img src="/asset/Cupi.jpg" alt="" width="300px" height="300px"/>
                             <div class="text">
                                 <div className={`name ${orbitron.className}`}>Muhammad Neo Cicero Koda</div>
                                 <div className={`nim ${orbitron.className}`}>13522108</div>
                             </div>  
                         </div>
-                        <div class="card">
+                        <div class="cardabout">
                             <img src="/asset/Adril.jpg" alt="" width="300px" height="300px"/>
                             <div class="text">
                                 <div className={`name ${orbitron.className}`}>William Glory Henderson</div>

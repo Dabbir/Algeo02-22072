@@ -81,11 +81,12 @@ body {
 
 ol {
     list-style-type: decimal;
+    margin-top: 0px;
 }
 
 li {
   font-size: 20px;
-    margin: 15px 30px;
+    margin: 10px 30px;
 }
 
 p {

@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import os
 import requests
 import shutil
@@ -6,6 +7,8 @@ from bs4 import BeautifulSoup
 from urllib.parse import urljoin, urlparse
 
 app = Flask(__name__)
+
+CORS(app)
 
 def download_image(url, folder_path):
     try:

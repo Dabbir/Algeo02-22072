@@ -136,10 +136,10 @@ const FileUpload = ({
         formData.append("photo", blob, "camera-photo.png");
 
         // Append other captured images if needed
-        // capturedImages.forEach(async (imageData, index) => {
-        //   const blob = dataURLtoBlob(imageData);
-        //   formData.append("photo", blob, `camera-photo_${index}.png`);
-        // });
+        capturedImages.forEach(async (imageData, index) => {
+          const blob = dataURLtoBlob(imageData);
+          formData.append("photo", blob, `camera-photo_${index}.png`);
+        });
       } else if (uploadedFile) {
         formData.append("photo", uploadedFile);
       } else {

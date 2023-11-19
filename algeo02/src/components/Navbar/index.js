@@ -10,6 +10,7 @@ const orbitron = Orbitron({
 function Navbar() {
   return (
     <div className={`fixed z-50 w-full backdrop-blur-sm ${orbitron.className}`}>
+      <br></br>
       <div className="flex flex-wrap justify-between items-center py-4 px-24 shadow-xl bg-transparent">
         <h1 className="text-5xl text-white font-semibold">
           <span className="text-secondary">Bukan</span>Lens
@@ -20,6 +21,12 @@ function Navbar() {
             className="hover:text-secondary hover:scale-105 hover:opacity-90"
           >
             Home
+            </Link>
+          <Link
+            href="/description"
+            className="hover:text-secondary hover:scale-105 hover:opacity-90"
+          >
+            Description
           </Link>
           <Link
             href="/search"

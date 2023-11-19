@@ -20,15 +20,15 @@ const Home = () => {
         <section className="flex flex-col z-10 m-[36vh] items-center justify-center h-4/5 font-semibold">
           <div className={`text-center ${orbitron.className}`}>
             <h1 className="text-6xl mb-4">
-              <span className="text-secondary">Reverse</span> Image Search
+              <span className="text-secondary">Reverse</span> Image <span className="text-secondary">Search</span>
             </h1>
-            <p className="text-lg mb-8 text-center">
+            <p className="text-lg mb-8 text-center paragraph-with-spacing">
               A Simple Website to Find Similar Images with CBIR Color and
               Texture
               <br />
               Using Cosine Similarity Theorem to Check Its Resemblance with
               Other Images <br />
-              The Higher The Cosine Value, The More Similar The Images are
+              The Higher The Cosine Values, The More Similar The Images are
             </p>
             <Link
               href="/description"
@@ -43,6 +43,13 @@ const Home = () => {
               style={{ "--i": "#00bfff" }}
             >
               EXPLORE
+            </Link>
+            <Link
+              href="/aboutus"
+              className="border-white border-4 rounded-sm py-2 px-4 mx-4 hover:bg-white hover:text-senary"
+              style={{ "--i": "#00bfff" }}
+            >
+              ABOUT US
             </Link>
           </div>
         </section>
