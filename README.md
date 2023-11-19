@@ -40,3 +40,4 @@ Dalam era digital, jumlah gambar yang dihasilkan dan disimpan semakin meningkat 
 1. Color based CBIR
 2. Texture based CBIR
 3. Upload image dengan camera
+4. Scraping dataset dari website

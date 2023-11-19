@@ -27,21 +27,21 @@ function aboutUs (){
                 <section className="flex flex-row z-10 m-[10vh] items-center justify-center h-4/5 font-semibold">
                     <dev class="card-containerabout"/>
                         <div class="cardabout">
-                            <img src="/asset/Dama.jpg" alt="" width="300px" height="300px"/>
+                            <img src="/dabbir.jpg" alt="" width="300px" height="300px"/>
                             <div class="text">
                                 <div className={`name ${orbitron.className}`}>Ahmad Mudabbir Arif</div>
                                 <div className={`nim ${orbitron.className}`}>13522072</div>
                             </div>  
                         </div>
                         <div class="cardabout">
-                            <img src="/asset/Cupi.jpg" alt="" width="300px" height="300px"/>
+                            <img src="/neo.jpg" alt="" width="300px" height="300px"/>
                             <div class="text">
                                 <div className={`name ${orbitron.className}`}>Muhammad Neo Cicero Koda</div>
                                 <div className={`nim ${orbitron.className}`}>13522108</div>
                             </div>  
                         </div>
                         <div class="cardabout">
-                            <img src="/asset/Adril.jpg" alt="" width="300px" height="300px"/>
+                            <img src="/wege.jpg" alt="" width="300px" height="300px"/>
                             <div class="text">
                                 <div className={`name ${orbitron.className}`}>William Glory Henderson</div>
                                 <div className={`nim ${orbitron.className}`}>13522113</div>
