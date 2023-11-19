@@ -23,13 +23,14 @@ const GallerySimilar = ({ activeButton }) => {
         setTimeColor(data.time_of_color_process);
         setTimeTexture(data.time_of_texture_process);
         setResult(data.results);
-        if (result.length === 0) {
-          setEmptyDataset(true);
-        }
       })
       .finally(() => {
         setLoading(false);
       });
+
+    // if (result.length === 0) {
+    //   setEmptyDataset(true);
+    // }
 
     if (activeButton === "color") {
       setColor(true);
@@ -66,18 +67,18 @@ const GallerySimilar = ({ activeButton }) => {
         <div className="flex justify-between font-semibold">
           <p className="text-2xl text-primary">Result:</p>
           {emptyDataset ? (
-            <p>{`${result.length} results in 0 seconds.`}</p>
+            <p>{`${currentImagesAboveThreshold.length} results in 0 seconds.`}</p>
           ) : (
             <p>
-              {loading ? (
-                "Loading..."
-              ) : (
-                <>
-                  {color && `${result.length} results in ${timeColor} seconds.`}
-                  {texture &&
-                    `${result.length} results in ${timeTexture} seconds.`}
-                </>
-              )}
+              {loading
+                ? "loading..."
+                : color
+                ? `${currentImagesAboveThreshold.length} results in ${
+                    currentImagesAboveThreshold.length === 0 ? 0 : timeColor
+                  } seconds.`
+                : `${currentImagesAboveThreshold.length} results in ${
+                    currentImagesAboveThreshold.length === 0 ? 0 : timeTexture
+                  } seconds.`}
             </p>
           )}
         </div>
@@ -117,7 +118,9 @@ const GallerySimilar = ({ activeButton }) => {
             >
               <Pagination
                 currentPage={currentPage}
-                totalPages={Math.ceil(result.length / imagesPerPage)}
+                totalPages={Math.ceil(
+                  currentImagesAboveThreshold.length / imagesPerPage
+                )}
                 onPageChange={paginate}
               />
             </div>

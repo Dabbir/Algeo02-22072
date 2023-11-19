@@ -1,3 +1,4 @@
+import JSZip from "jszip";
 import Image from "next/image";
 import React, { useState } from "react";
 
@@ -14,15 +15,27 @@ const UploadFolder = ({ onCancelUpload, onUploaded }) => {
     if (zipFiles.length > 0) {
       try {
         const zip = new JSZip();
+
+        // Process each zip file
         await Promise.all(
           zipFiles.map(async (zipFile) => {
             const zipContents = await zip.loadAsync(zipFile);
+
+            // Extract each file from the zip
             Object.keys(zipContents.files).forEach(async (filename) => {
               const content = await zipContents.files[filename].async("blob");
-              const extractedFile = new File([content], filename, {
-                type: zipContents.files[filename].comment || "",
-              });
-              setFiles((prevFiles) => [...prevFiles, extractedFile]);
+              const reader = new FileReader();
+
+              reader.onload = function () {
+                const extractedFile = new File([reader.result], filename, {
+                  type: zipContents.files[filename].comment || "",
+                });
+
+                // Add the extracted file to the state
+                setFiles((prevFiles) => [...prevFiles, extractedFile]);
+              };
+
+              reader.readAsArrayBuffer(content);
             });
           })
         );
@@ -56,7 +69,17 @@ const UploadFolder = ({ onCancelUpload, onUploaded }) => {
 
         const formData = new FormData();
 
-        for (const file of files) {
+        // Flatten the array of files
+        const flattenedFiles = files.reduce((acc, file) => {
+          if (file instanceof FileList) {
+            acc.push(...Array.from(file));
+          } else {
+            acc.push(file);
+          }
+          return acc;
+        }, []);
+
+        for (const file of flattenedFiles) {
           formData.append("files", file);
         }
 

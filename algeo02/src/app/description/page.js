@@ -14,6 +14,8 @@ function description (){
   return (
     <main>
         <Navbar />
+        <br></br>
+        <br></br>
         <div className="backgroundAmim absolute -z-10 top-0 left-0 w-full h-40 bg-blue-500 filter blur-60 animate-animBack"></div>
         <div className="w-full min-h-[100vh] mx-auto flex flex-col justify-between backdrop-blur-sm">
             <div className="fixed">
