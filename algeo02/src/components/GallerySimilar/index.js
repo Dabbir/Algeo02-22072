@@ -28,10 +28,6 @@ const GallerySimilar = ({ activeButton }) => {
         setLoading(false);
       });
 
-    // if (result.length === 0) {
-    //   setEmptyDataset(true);
-    // }
-
     if (activeButton === "color") {
       setColor(true);
       setTexture(false);
@@ -55,9 +51,7 @@ const GallerySimilar = ({ activeButton }) => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const currentImagesAboveThreshold = currentImages.filter((image) => {
-    const similarity = color
-      ? image.similarity_color
-      : image.similarity_texture;
+    const similarity = color ? image.similarity_color : image.similarity_texture;
     return similarity >= 0.6; // 60% similarity threshold
   });
 
@@ -69,16 +63,12 @@ const GallerySimilar = ({ activeButton }) => {
           {emptyDataset ? (
             <p>{`${currentImagesAboveThreshold.length} results in 0 seconds.`}</p>
           ) : (
-            <p>
-              {loading
-                ? "loading..."
-                : color
-                ? `${currentImagesAboveThreshold.length} results in ${
-                    currentImagesAboveThreshold.length === 0 ? 0 : timeColor
-                  } seconds.`
-                : `${currentImagesAboveThreshold.length} results in ${
-                    currentImagesAboveThreshold.length === 0 ? 0 : timeTexture
-                  } seconds.`}
+            <p>{loading ? (
+                "loading..."
+              ) : (  
+                color ? `${currentImagesAboveThreshold.length} results in ${currentImagesAboveThreshold.length === 0 ? 0 : timeColor} seconds.` :
+                `${currentImagesAboveThreshold.length} results in ${currentImagesAboveThreshold.length === 0 ? 0 : timeTexture} seconds.`
+            )}
             </p>
           )}
         </div>
@@ -111,16 +101,12 @@ const GallerySimilar = ({ activeButton }) => {
             </div>
             <div
               className={`${
-                currentImagesAboveThreshold.length <= 3
-                  ? "mt-[26.65em]"
-                  : "mt-0"
+                currentImagesAboveThreshold.length <= 3 ? "mt-[26.65em]" : "mt-0"
               } justify-center`}
             >
               <Pagination
                 currentPage={currentPage}
-                totalPages={Math.ceil(
-                  currentImagesAboveThreshold.length / imagesPerPage
-                )}
+                totalPages={Math.ceil(result.length / imagesPerPage)}
                 onPageChange={paginate}
               />
             </div>
