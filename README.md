@@ -11,8 +11,6 @@ Dalam era digital, jumlah gambar yang dihasilkan dan disimpan semakin meningkat 
 | 13522108 | Muhammad Neo Cicero Koda  | 
 | 13522113 | William Glory Henderson   |
 
-## Struktur Program
-
 ## Technologies Used
 1. React
 2. Next.js
