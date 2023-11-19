@@ -22,6 +22,7 @@ const FileUpload = ({
   onReset,
   onSearch,
   onToggle,
+  onCamera,
 }) => {
   const [uploading, setUploading] = useState(false);
   const [saveImage, setSaveImage] = useState(null);
@@ -98,8 +99,24 @@ const FileUpload = ({
       );
 
       const imageDataURL = canvas.toDataURL("image/png");
+
+      // Step 1: Send the new image to the server
+      const blob = dataURLtoBlob(imageDataURL);
+      const formData = new FormData();
+      formData.append("photo", blob, "camera-photo.png");
+
+      const response = await fetch("http://localhost:4000/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        console.log("Camera image uploaded successfully");
+      } else {
+        console.error("Camera image upload failed:", response.statusText);
+      }
+
       setLatestCapture(imageDataURL);
-      // setCapturedImages((prevImages) => [...prevImages, imageDataURL]);
     }
   };
 
@@ -116,6 +133,11 @@ const FileUpload = ({
     onReset();
   };
 
+  const handleIsCamera = () => {
+    setUsingCamera(!usingCamera);
+    onCamera(!usingCamera);
+  };
+
   const handleUpload = async () => {
     if (usingCamera) {
       clearInterval(captureInterval);
@@ -123,23 +145,16 @@ const FileUpload = ({
 
     setUploading(true);
     try {
-      // Step 1: Delete existing files
+      // Step 1: Delete the previous file on the server
       await fetch("http://localhost:4000/api/upload", {
         method: "DELETE",
       });
 
-      // Step 2: Upload the new file
       let formData = new FormData();
 
       if (usingCamera) {
         const blob = dataURLtoBlob(latestCapture);
         formData.append("photo", blob, "camera-photo.png");
-
-        // Append other captured images if needed
-        // capturedImages.forEach(async (imageData, index) => {
-        //   const blob = dataURLtoBlob(imageData);
-        //   formData.append("photo", blob, `camera-photo_${index}.png`);
-        // });
       } else if (uploadedFile) {
         formData.append("photo", uploadedFile);
       } else {
@@ -147,6 +162,7 @@ const FileUpload = ({
         return;
       }
 
+      // Step 2: Upload the new file
       const response = await fetch("http://localhost:4000/api/upload", {
         method: "POST",
         body: formData,
@@ -161,7 +177,6 @@ const FileUpload = ({
       setTimeout(() => {
         setUploading(false);
         onSearch();
-        // setCapturedImages([]);
       }, 1000);
     } catch (error) {
       console.error("Error uploading file:", error);
@@ -172,23 +187,26 @@ const FileUpload = ({
   useEffect(() => {
     let countdownValue = 10;
     let countdownInterval;
+
     const startCameraAndCountdown = async () => {
       await startCamera();
+
       countdownInterval = setInterval(() => {
-        setCountdown(() => {
-          if (countdownValue === 0) {
-            countdownValue = 10;
+        setCountdown((prevCountdown) => {
+          if (prevCountdown === 0) {
             captureImage();
+            return 20;
           } else {
-            countdownValue -= 1;
+            return prevCountdown - 1;
           }
-          return countdownValue;
         });
       }, 1000);
     };
+
     if (usingCamera) {
       startCameraAndCountdown();
     }
+
     return () => {
       clearInterval(countdownInterval);
     };
@@ -311,7 +329,7 @@ const FileUpload = ({
             </div>
             <div className="flex gap-4">
               <button
-                onClick={() => setUsingCamera(true)}
+                onClick={() => handleIsCamera()}
                 className={`${
                   usingCamera
                     ? "bg-gradient-to-r from-quaternary to-primary text-white transform scale-105 transition-all"
@@ -321,7 +339,7 @@ const FileUpload = ({
                 Use Camera
               </button>
               <button
-                onClick={() => setUsingCamera(false)}
+                onClick={() => handleIsCamera()}
                 className={`${
                   !usingCamera
                     ? "bg-gradient-to-r from-quaternary to-primary text-white transform scale-105 transition-all"
@@ -331,13 +349,15 @@ const FileUpload = ({
                 Upload Image
               </button>
             </div>
-            <button
-              onClick={handleUpload}
-              disabled={uploading}
-              className="py-2 px-16 w-full text-white text-xl rounded-full bg-gradient-to-r from-quaternary to-primary hover:opacity-80 mt-4"
-            >
-              Search
-            </button>
+            {!usingCamera && (
+              <button
+                onClick={handleUpload}
+                disabled={uploading}
+                className="py-2 px-16 w-full text-white text-xl rounded-full bg-gradient-to-r from-quaternary to-primary hover:opacity-80 mt-4"
+              >
+                Search
+              </button>
+            )}
             <ToggleButton onToggle={handleToggle} />
           </div>
         </div>

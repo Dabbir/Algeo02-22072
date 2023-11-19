@@ -59,6 +59,8 @@ app.post("/api/upload/dataset", upload.array("files"), datasetUploadHandler);
 
 app.post("/api/scrape", scrapeHandler);
 
+app.delete("/api/upload", deleteUploadHandler);
+
 app.delete("/api/upload/dataset", deleteDatasetHandler);
 
 async function uploadHandler(req, res) {
@@ -69,9 +71,6 @@ async function uploadHandler(req, res) {
 
     const destination = uploadDestination;
     const filePath = path.join(destination, req.file.filename);
-
-    // Remove existing file with the same name using rimraf
-    // await removeExistingFileByUrl(filePath);
 
     const imageURL =
       req.protocol + "://" + req.get("host") + "/uploads/" + req.file.filename;
@@ -226,6 +225,19 @@ async function deleteDatasetHandler(req, res) {
     notifyUpdate("/dataset");
   } catch (error) {
     console.error("Error deleting dataset:", error.message);
+    res.status(500).json({ status: "error", message: error.message });
+  }
+}
+
+async function deleteUploadHandler(req, res) {
+  try {
+    // Remove existing files in the dataset folder
+    await removeAllFilesInDirectory(uploadDestination);
+
+    res.json({ status: "success", message: "Upload deleted successfully" });
+    notifyUpdate("/uploads");
+  } catch (error) {
+    console.error("Error deleting uploaded image:", error.message);
     res.status(500).json({ status: "error", message: error.message });
   }
 }

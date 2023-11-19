@@ -50,12 +50,10 @@ const UploadFolder = ({ onCancelUpload, onUploaded }) => {
       if (!files || files.length === 0) {
         alert("No file uploaded");
       } else {
-        // Step 1: Delete existing dataset
         await fetch("http://localhost:4000/api/upload/dataset", {
           method: "DELETE",
         });
 
-        // Step 2: Upload the new dataset
         const formData = new FormData();
 
         for (const file of files) {
