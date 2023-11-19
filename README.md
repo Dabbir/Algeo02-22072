@@ -23,11 +23,11 @@ Dalam era digital, jumlah gambar yang dihasilkan dan disimpan semakin meningkat 
 ## How To Run The Website
 1. Clone repository ini
 2. Pastikan teknologi yang telah disebut sudah terinstall di perangkat Anda
-3. cd ke algeo02
-4. Ketik `cd backend`, lalu `cd api`
-5. Ketik `node server.js` untuk menyalakan endpoint API
-6. Buat terminal baru
-7. Ketik `npm run dev` di terminal untuk menyalakan website
+3. Ketik `cd src`, lalu ketik `cd algeo02` 
+4. Ketik `npm run dev` di terminal untuk menyalakan website
+5. Buat terminal baru
+6. Ketik `cd src` lalu `cd backend`, lalu `cd api`
+7. Ketik `node server.js` untuk menyalakan endpoint API
 8. Masuk ke website dengan mengetik http://localhost:3000
 9. Klik tombol Search di kanan atas
 10. Upload dataset dengan memilih folder yang diinginkan
