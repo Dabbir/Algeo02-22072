@@ -1,12 +1,13 @@
 // components/ImageScraper.js
 import { useState } from "react";
 
-const ImageScraper = ({ onCancelScrape }) => {
+const ImageScraper = ({ onCancelScrape, onSuccess }) => {
   const [urlInput, setUrlInput] = useState("");
   const [images, setImages] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [showCancel, setShowCancel] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const scrapeImages = async () => {
     try {
@@ -27,6 +28,7 @@ const ImageScraper = ({ onCancelScrape }) => {
       if (result.status === "success") {
         setImages(result.images || []);
         setErrorMessage("");
+        setIsSuccess(true);
       } else {
         setErrorMessage(
           result.message || "Error scraping images. Please try again."
@@ -50,7 +52,11 @@ const ImageScraper = ({ onCancelScrape }) => {
   const cancelScrape = () => {
     setIsVisible(false);
     setTimeout(() => {
-      onCancelScrape();
+      if (isSuccess) {
+        onSuccess();
+      } else {
+        onCancelScrape();
+      }
     }, 300);
   };
 
@@ -110,10 +116,6 @@ const ImageScraper = ({ onCancelScrape }) => {
               >
                 Cancel
               </button>
-              {images.length > 0 &&
-                images.map((imageUrl, index) => (
-                  <img key={index} src={imageUrl} alt={`Image ${index}`} />
-                ))}
             </form>
           </div>
         </div>

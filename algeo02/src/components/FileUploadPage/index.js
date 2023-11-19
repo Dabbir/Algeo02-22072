@@ -69,7 +69,10 @@ const FileUploadPage = () => {
       {isScraping && (
         <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 h-screen w-screen sm:px-8 md:px-16 sm:py-8">
           <div className="relative mx-auto my-[15vh] rounded-xl">
-            <ImageScraper onCancelScrape={() => setIsScraping(false)} />
+            <ImageScraper
+              onCancelScrape={() => setIsScraping(false)}
+              onSuccess={() => setIsDatasetUpload(true)}
+            />
           </div>
         </div>
       )}

@@ -29,7 +29,6 @@ const FileUpload = ({
   const [cameraStream, setCameraStream] = useState(null);
   const [usingCamera, setUsingCamera] = useState(false);
   const [countdown, setCountdown] = useState(10);
-  const [capturedImages, setCapturedImages] = useState([]);
   const [captureInterval, setCaptureInterval] = useState(null);
   const [latestCapture, setLatestCapture] = useState(null);
 
