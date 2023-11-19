@@ -23,14 +23,18 @@ Dalam era digital, jumlah gambar yang dihasilkan dan disimpan semakin meningkat 
 ## How To Run The Website
 1. Clone repository ini
 2. Pastikan teknologi yang telah disebut sudah terinstall di perangkat Anda
-3. Ketik `npm run dev` di terminal
-4. Masuk ke website dengan mengetik http://localhost:3000
-5. Klik tombol Search di kanan atas
-6. Upload dataset dengan memilih folder yang diinginkan
-7. Upload gambar dengan memilih sebuah file atau mengambil foto dengan kamera
-8. Pilih opsi searching berdasarkan parameter warna atau tekstur
-9. Klik search
-10. Akan ditampilkan gambar-gambar dari dataset terurut mulai dari yang termirip
+3. cd ke algeo02
+4. Ketik `cd backend`, lalu `cd api`
+5. Ketik `node server.js` untuk menyalakan endpoint API
+6. Buat terminal baru
+7. Ketik `npm run dev` di terminal untuk menyalakan website
+8. Masuk ke website dengan mengetik http://localhost:3000
+9. Klik tombol Search di kanan atas
+10. Upload dataset dengan memilih folder yang diinginkan
+11. Upload gambar dengan memilih sebuah file atau mengambil foto dengan kamera
+12. Pilih opsi searching berdasarkan parameter warna atau tekstur
+13. Klik search
+14. Akan ditampilkan gambar-gambar dari dataset terurut mulai dari yang termirip
 
 ## Features
 1. Color based CBIR
