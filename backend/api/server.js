@@ -8,7 +8,8 @@ const JSZip = require("jszip");
 const fs = require("fs").promises;
 const http = require("http");
 const WebSocket = require("ws");
-const rimraf = require("rimraf"); // Add rimraf
+const rimraf = require("rimraf");
+const axios = require("axios");
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -176,43 +177,6 @@ async function scrapeHandler(req, res) {
   } catch (error) {
     console.error("Error scraping images:", error.message);
     res.status(500).json({ status: "error", message: "Error scraping images" });
-  }
-}
-
-async function scrapeImagesFromUrl(url) {
-  // Implement your logic to scrape images based on the provided URL
-  // For simplicity, let's assume there is a function called `scrapeImages`
-  // that returns an array of image URLs
-  const scrapedImages = await scrapeImages(url);
-  return scrapedImages;
-}
-
-async function saveImagesToDataset(images) {
-  const finalImageURLs = [];
-
-  // Process each scraped image
-  for (const imageUrl of images) {
-    // Save the image to the /dataset folder
-    const filename = path.basename(urlparse(imageUrl).path);
-    const filePath = path.join(datasetDestination, filename);
-
-    await downloadImage(imageUrl, filePath);
-
-    finalImageURLs.push(
-      `${req.protocol}://${req.get("host")}/dataset/${filename}`
-    );
-  }
-
-  return finalImageURLs;
-}
-
-async function downloadImage(url, filePath) {
-  try {
-    const response = await axios.get(url, { responseType: "arraybuffer" });
-    await fs.writeFile(filePath, response.data);
-  } catch (error) {
-    console.error(`Error downloading image from ${url}:`, error.message);
-    throw error;
   }
 }
 

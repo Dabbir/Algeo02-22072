@@ -47,7 +47,6 @@ const FileUpload = ({
 
   const handleToggle = (activeButton) => {
     onToggle(activeButton);
-    // setUsingCamera(activeButton === "camera");
   };
 
   const startCamera = async () => {
@@ -145,7 +144,6 @@ const FileUpload = ({
 
     setUploading(true);
     try {
-      // Step 1: Delete the previous file on the server
       await fetch("http://localhost:4000/api/upload", {
         method: "DELETE",
       });
@@ -162,7 +160,6 @@ const FileUpload = ({
         return;
       }
 
-      // Step 2: Upload the new file
       const response = await fetch("http://localhost:4000/api/upload", {
         method: "POST",
         body: formData,

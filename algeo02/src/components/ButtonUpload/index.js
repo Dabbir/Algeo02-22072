@@ -1,49 +1,55 @@
+import React, { useState, useCallback } from "react";
+import { useDropzone } from "react-dropzone";
 import JSZip from "jszip";
 import Image from "next/image";
-import React, { useState } from "react";
 
 const UploadFolder = ({ onCancelUpload, onUploaded }) => {
   const [files, setFiles] = useState([]);
   const [isVisible, setIsVisible] = useState(true);
 
-  const handleFileUpload = async (e) => {
-    const newFiles = [...files, ...Array.from(e.target.files)];
-    setFiles(newFiles);
+  const onDrop = useCallback(
+    async (acceptedFiles) => {
+      const newFiles = [...files, ...acceptedFiles];
+      setFiles(newFiles);
 
-    const zipFiles = newFiles.filter((file) => file.type === "application/zip");
+      const zipFiles = newFiles.filter(
+        (file) => file.type === "application/zip"
+      );
 
-    if (zipFiles.length > 0) {
-      try {
-        const zip = new JSZip();
+      if (zipFiles.length > 0) {
+        try {
+          const zip = new JSZip();
 
-        // Process each zip file
-        await Promise.all(
-          zipFiles.map(async (zipFile) => {
-            const zipContents = await zip.loadAsync(zipFile);
+          // Process each zip file
+          await Promise.all(
+            zipFiles.map(async (zipFile) => {
+              const zipContents = await zip.loadAsync(zipFile);
 
-            // Extract each file from the zip
-            Object.keys(zipContents.files).forEach(async (filename) => {
-              const content = await zipContents.files[filename].async("blob");
-              const reader = new FileReader();
+              // Extract each file from the zip
+              Object.keys(zipContents.files).forEach(async (filename) => {
+                const content = await zipContents.files[filename].async("blob");
+                const reader = new FileReader();
 
-              reader.onload = function () {
-                const extractedFile = new File([reader.result], filename, {
-                  type: zipContents.files[filename].comment || "",
-                });
+                reader.onload = function () {
+                  const extractedFile = new File([reader.result], filename, {
+                    type: zipContents.files[filename].comment || "",
+                  });
 
-                // Add the extracted file to the state
-                setFiles((prevFiles) => [...prevFiles, extractedFile]);
-              };
+                  // Add the extracted file to the state
+                  setFiles((prevFiles) => [...prevFiles, extractedFile]);
+                };
 
-              reader.readAsArrayBuffer(content);
-            });
-          })
-        );
-      } catch (error) {
-        console.error("Error extracting zip file:", error);
+                reader.readAsArrayBuffer(content);
+              });
+            })
+          );
+        } catch (error) {
+          console.error("Error extracting zip file:", error);
+        }
       }
-    }
-  };
+    },
+    [files]
+  );
 
   const handleFileDelete = (index) => {
     const newFiles = [...files];
@@ -106,6 +112,8 @@ const UploadFolder = ({ onCancelUpload, onUploaded }) => {
     }
   };
 
+  const { getRootProps, getInputProps } = useDropzone({ onDrop });
+
   return (
     <div
       className={`transition-all transform duration-500 ${
@@ -123,28 +131,23 @@ const UploadFolder = ({ onCancelUpload, onUploaded }) => {
             Upload Files
           </label>
 
-          <input
-            id="file-input"
-            type="file"
-            multiple
-            onChange={handleFileUpload}
-            className="hidden"
-          />
-
-          <div className="border-dashed border-2 rounded-md border-gray-500 p-8 mb-8">
-            <label
-              htmlFor="file-input"
-              className="cursor-pointer block text-gray-600 text-center p-4 border border-dashed border-gray-500 rounded-md"
-            >
-              <Image
-                src="/download.svg"
-                width={50}
-                height={50}
-                alt="..."
-                className="mx-auto"
-              />
-              Drag and drop files here or click to browse
-            </label>
+          <div {...getRootProps()} className="dropzone">
+            <input {...getInputProps()} />
+            <div className="border-dashed border-2 rounded-md border-gray-500 p-8 mb-8">
+              <label
+                htmlFor="file-input"
+                className="cursor-pointer block text-gray-600 text-center p-4 border border-dashed border-gray-500 rounded-md"
+              >
+                <Image
+                  src="/download.svg"
+                  width={50}
+                  height={50}
+                  alt="..."
+                  className="mx-auto"
+                />
+                Drag and drop files here or click to browse
+              </label>
+            </div>
           </div>
 
           {files.length > 0 && (
